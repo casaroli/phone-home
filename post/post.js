@@ -14,7 +14,7 @@ function getInput(name, options) {
     return val.trim();
 }
 
-function reportStatus (token, repository, sha, context, state, description, url) {
+var reportStatus = (token, repository, sha, context, state, description, url) => new Promise((resolve, reject) => {
     const status_req = https.request({
         hostname: 'api.github.com',
         port: 443,
@@ -27,30 +27,34 @@ function reportStatus (token, repository, sha, context, state, description, url)
             'X-GitHub-Api-Version': '2022-11-28'
         },
     }, (res) => {
+        let data = Buffer.alloc(0);
         res.on('data', (d) => {
-            const str = new TextDecoder().decode(d);
-            console.log("received data:", str);
+            data = Buffer.concat([data, d]);
         });
         res.on('close', () => {
             console.log('received statusCode:', res.statusCode);
             if (!res.statusCode || Math.floor(res.statusCode / 100) != 2) {
                 console.error('error, bad statusCode', res.statusCode, 'expected: 2xx');
-                throw "bad status code";
+                reject();
             }
         });
+        res.on('end', () => {
+            const str = new TextDecoder().decode(data);
+            console.log("received data:", JSON.parse(str));
+            resolve(data);
+        });
     });
-    status_req.write(JSON.stringify({
+    status_req.on('error', (e) => {
+        console.error(e);
+        reject();
+    });
+    status_req.end(JSON.stringify({
         state: state,
         description: description,
         context: context,
         target_url: url || null
     }));
-    status_req.on('error', (e) => {
-        console.error(e);
-        throw "request error";
-    });
-    status_req.end();
-}
+});
 
 const phone_home_input = getInput('phone-home-input');
 const target_url = getInput('target-url');
@@ -63,5 +67,9 @@ const token = phone_home_list[0];
 const repository = phone_home_list[1];
 const sha = phone_home_list[2];
 const context = phone_home_list.slice(3).join(';');
-reportStatus(token, repository, sha, context, 'success', 'Finished', target_url);
+console.log(`::group::Report finished status to ${repository}:${sha}`);
+console.log('context:', context);
+console.log('target_url:', target_url);
+await reportStatus(token, repository, sha, context, 'success', 'Finished', target_url);
+console.log("::endgroup::");
 //# sourceMappingURL=post.js.map
