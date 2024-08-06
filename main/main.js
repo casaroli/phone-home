@@ -60,7 +60,7 @@ var reportStatus = (token, repository, sha, context, state, description, url) =>
 
 const phone_home_input = getInput('phone-home-input');
 const target_url = getInput('target-url');
-const custom_context = getInput('target-url');
+const custom_context = getInput('context');
 const phone_home_list = phone_home_input.split(';');
 if (phone_home_list.length < 4) {
     console.error('bad phone home input:', phone_home_input);
