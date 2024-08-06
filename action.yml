@@ -3,8 +3,15 @@ description: 'Reports the workflow status to the dispatcher'
 inputs:
   phone-home-input:
     description: Status report data from dispatch-phone-home
+    type:string
+    required: true
+  target-url:
+    decription: Override the status URL
+    type: string
     required: false
+    default: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 runs:
   using: 'node20'
-  main: 'index.js'
+  main: 'main/main.js'
+  post: 'post/post.js'
