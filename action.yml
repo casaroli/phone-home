@@ -1,0 +1,10 @@
+name: 'Phone home to report status'
+description: 'Reports the workflow status to the dispatcher'
+inputs:
+  phone-home-input:
+    description: Status report data from dispatch-phone-home
+    required: false
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
