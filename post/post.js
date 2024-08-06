@@ -39,8 +39,10 @@ var reportStatus = (token, repository, sha, context, state, description, url) =>
             }
         });
         res.on('end', () => {
-            const str = new TextDecoder().decode(data);
-            console.log("received data:", JSON.parse(str));
+            if (data.length) {
+                const str = new TextDecoder().decode(data);
+                console.log("received data:", JSON.parse(str));
+            }
             resolve(data);
         });
     });
