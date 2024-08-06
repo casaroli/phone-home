@@ -2,7 +2,7 @@ name: Phone home to report status
 description: Reports the workflow status to the dispatcher
 inputs:
   phone-home-input:
-    description: Status report data from dispatch-phone-home
+    description: Metadata to phone-home
     type: string
     required: true
   target-url:
