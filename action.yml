@@ -1,9 +1,9 @@
-name: 'Phone home to report status'
-description: 'Reports the workflow status to the dispatcher'
+name: Phone home to report status
+description: Reports the workflow status to the dispatcher
 inputs:
   phone-home-input:
     description: Status report data from dispatch-phone-home
-    type:string
+    type: string
     required: true
   target-url:
     decription: Override the status URL
@@ -12,6 +12,6 @@ inputs:
     default: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 runs:
-  using: 'node20'
-  main: 'main/main.js'
-  post: 'post/post.js'
+  using: node20
+  main: main/main.js
+  post: post/post.js
