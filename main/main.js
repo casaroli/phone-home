@@ -60,6 +60,7 @@ var reportStatus = (token, repository, sha, context, state, description, url) =>
 
 const phone_home_input = getInput('phone-home-input');
 const target_url = getInput('target-url');
+const custom_context = getInput('target-url');
 const phone_home_list = phone_home_input.split(';');
 if (phone_home_list.length < 4) {
     console.error('bad phone home input:', phone_home_input);
@@ -72,6 +73,6 @@ const context = phone_home_list.slice(3).join(';');
 console.log(`::group::Report started status to ${repository}:${sha}`);
 console.log('context:', context);
 console.log('target_url:', target_url);
-await reportStatus(token, repository, sha, context, 'pending', 'Started', target_url);
+await reportStatus(token, repository, sha, custom_context || context, 'pending', 'Started', target_url);
 console.log("::endgroup::");
 //# sourceMappingURL=main.js.map

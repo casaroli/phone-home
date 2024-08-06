@@ -10,6 +10,10 @@ inputs:
     type: string
     required: false
     default: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  context:
+    description: Override the context status
+    type: string
+    required: false
 
 runs:
   using: node20
