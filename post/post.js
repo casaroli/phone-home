@@ -43,7 +43,7 @@ function reportStatus (token, repository, sha, context, state, description, url)
         state: state,
         description: description,
         context: context,
-        // target_url: url
+        target_url: url || null
     }));
     status_req.on('error', (e) => {
         console.error(e);
@@ -53,7 +53,7 @@ function reportStatus (token, repository, sha, context, state, description, url)
 }
 
 const phone_home_input = getInput('phone-home-input');
-getInput('target-url');
+const target_url = getInput('target-url');
 const phone_home_list = phone_home_input.split(';');
 if (phone_home_list.length < 4) {
     console.error('bad phone home input:', phone_home_input);
@@ -63,5 +63,5 @@ const token = phone_home_list[0];
 const repository = phone_home_list[1];
 const sha = phone_home_list[2];
 const context = phone_home_list.slice(3).join(';');
-reportStatus(token, repository, sha, context, 'success', 'Finished');
+reportStatus(token, repository, sha, context, 'success', 'Finished', target_url);
 //# sourceMappingURL=post.js.map
