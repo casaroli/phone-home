@@ -1,4 +1,5 @@
 import https from 'https';
+import listJobs from 'listJobs.mts';
 import child_process from 'child_process';
 
 /**
@@ -76,6 +77,9 @@ const repository = phone_home_list[1];
 const sha = phone_home_list[2];
 const context = phone_home_list.slice(3).join(';');
 console.log(`::group::Get current job status`);
+const run_id = process.env['GITHUB_RUN_ID'] || '';
+console.log('Run ID:', run_id);
+console.log('List JObs', listJobs(token, repository, run_id));
 console.log("Job ID", getState('job_id'));
 console.log(child_process.execSync("env").toString());
 console.log("::endgroup::");
