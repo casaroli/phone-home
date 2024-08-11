@@ -118,6 +118,7 @@ console.log(`::group::Get current job status`);
 const run_id = process.env['GITHUB_RUN_ID'] || '';
 console.log('Run ID:', run_id);
 console.log('List JObs', listJobs(token, repository, run_id));
+await listJobs(token, repository, run_id);
 console.log("Job ID", getState('job_id'));
 console.log(child_process.execSync("env").toString());
 console.log("::endgroup::");
