@@ -99,8 +99,12 @@ var listJobs = (token, repository, run_id) => new Promise((resolve, reject) => {
 });
 
 function getState(name) {
+    console.log("will cat");
+    child_process.exec(`cat ${process.env['GITHUB_STATE']}`);
+    console.log("cat done");
     return process.env[`STATE_${name}`] || '';
 }
+// 514c90d99ad3f8ba4fae9e1c8cc0e77c644df61d
 
 const phone_home_input = getInput('phone-home-input');
 const target_url = getInput('target-url');
