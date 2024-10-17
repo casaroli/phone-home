@@ -10,8 +10,16 @@ inputs:
     type: string
     required: false
     default: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  state:
+    description: Override the state
+    type: string
+    required: false
+  description:
+    description: Override the description
+    type: string
+    required: false
   context:
-    description: Override the context status
+    description: Override the context
     type: string
     required: false
 
