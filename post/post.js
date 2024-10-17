@@ -99,12 +99,15 @@ var listJobs = (token, repository, run_id) => new Promise((resolve, reject) => {
 });
 
 function getState(name) {
+    child_process.exec(`cat {process.env['GITHUB_STATE']}`);
     return process.env[`STATE_${name}`] || '';
 }
 
 const phone_home_input = getInput('phone-home-input');
 const target_url = getInput('target-url');
 const custom_context = getInput('context');
+const custom_state = getInput('state');
+const custom_description = getInput('description');
 const phone_home_list = phone_home_input.split(';');
 if (phone_home_list.length < 4) {
     console.error('bad phone home input:', phone_home_input);
@@ -125,6 +128,6 @@ console.log("::endgroup::");
 console.log(`::group::Report finished status to ${repository}:${sha}`);
 console.log('context:', context);
 console.log('target_url:', target_url);
-await reportStatus(token, repository, sha, custom_context || context, 'success', 'Finished', target_url);
+await reportStatus(token, repository, sha, custom_context || context, custom_state || 'success', custom_description || 'Finished', target_url);
 console.log("::endgroup::");
 //# sourceMappingURL=post.js.map
